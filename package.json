@@ -1,0 +1,28 @@
+{
+  "name": "custom-graphql-directive",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "@apollo/subgraph": "^2.0.5",
+    "@graphql-tools/schema": "^8.3.14",
+    "@graphql-tools/utils": "^8.6.13",
+    "apollo-server-core": "^3.8.2",
+    "apollo-server-express": "^3.8.2",
+    "express": "^4.18.1",
+    "graphql": "^16.5.0",
+    "knex": "^2.1.0",
+    "lodash.merge": "^4.6.2",
+    "objection": "^3.0.1",
+    "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "migrate": "knex migrate:latest",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Mark Matas",
+  "license": "MIT"
+}
