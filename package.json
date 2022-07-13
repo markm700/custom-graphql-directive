@@ -1,5 +1,5 @@
 {
-  "name": "bitovi-graphql-demo",
+  "name": "custom-graphql-directive",
   "version": "0.1.0",
   "description": "",
   "main": "server.js",

@@ -41,8 +41,8 @@ const wrestlingCompanyResolvers = {
         companies: async () => {
             const companies = await WrestlingCompany.query();
             console.log(`Companies: ${JSON.stringify(companies)}`);
-            //return companies;
-            [...companies.map(c => ({...c, __typename: 'WrestlingCompany' }))];
+            return companies;
+            //[...companies.map(c => ({...c, __typename: 'WrestlingCompany' }))];
         }
     }
 }
