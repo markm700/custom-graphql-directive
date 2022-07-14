@@ -8,6 +8,7 @@ const knexConfig = require('./knexfile');
 const { Model } = require('objection');
 const { typeDefs } = require('./src/graphql/type-defs');
 const { resolvers } = require('./src/graphql/resolvers');
+const { transformSchemaWithDirectives, uppercaseDirectiveTypeDefs } = require('./src/graphql/directives');
 
 const knex = KNEX(knexConfig.development);
 console.log(knex);
@@ -15,13 +16,22 @@ console.log(knex);
 Model.knex(knex);
 
 async function startApolloServer(typeDefs, resolvers) {
-
   const app = express();
-
   const httpServer = http.createServer(app);
 
+  let createdSchema = buildSubgraphSchema({ 
+    typeDefs: [
+      uppercaseDirectiveTypeDefs,
+      ...typeDefs
+    ], 
+    resolvers 
+  });
+
+  //transform schema by applying directives
+  createdSchema = transformSchemaWithDirectives(createdSchema);
+
   const server = new ApolloServer({
-    schema: buildSubgraphSchema({ typeDefs, resolvers }),
+    schema: createdSchema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {

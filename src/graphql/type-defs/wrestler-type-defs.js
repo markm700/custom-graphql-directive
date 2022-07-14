@@ -14,7 +14,7 @@ const wrestlerTypeDefs = gql`
     }
 
     input WrestlingCompanyInput {
-        companyName: String!
+        companyName: String! @upper
     }
 
     extend type Query {
@@ -24,7 +24,7 @@ const wrestlerTypeDefs = gql`
     # @key(fields: "wrestlerId"),  divisions: [ChampionshipDivisions] @requires(fields: "WrestlingCompany") OR @includes(if: WrestlingCompany.ChampionshipDivisions.length > 1)
     type Wrestler  {
         wrestlerId: ID!
-        company: String!
+        companyName: String! @upper
         name: String!
         height: String
         location: String

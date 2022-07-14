@@ -3,10 +3,10 @@ const { Wrestler } = require('../models');
 const wrestlerResolvers = {
     Mutation: {
         createWrestler: async (parent, args, context, info) => {
-            const { company, name, height, location, injured } = args;
+            const { companyName, name, height, location, injured } = args;
             //call code to create company in DB
             await Wrestler.query().insert({
-                company,
+                companyName,
                 name,
                 height,
                 location,
