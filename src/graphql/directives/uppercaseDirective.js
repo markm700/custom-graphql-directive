@@ -16,7 +16,8 @@ const uppercaseDirective = new GraphQLDirective({
     DirectiveLocation.OBJECT,
     DirectiveLocation.SCALAR,
     DirectiveLocation.UNION,
-    DirectiveLocation.FIELD_DEFINITION
+    DirectiveLocation.FIELD_DEFINITION,
+    DirectiveLocation.INPUT_FIELD_DEFINITION
   ],
   args: {
     category: {
@@ -25,7 +26,7 @@ const uppercaseDirective = new GraphQLDirective({
   }
 })
 
-const uppercaseDirectiveTypeDefs = `directive @${uppercaseDirective.name} on FIELD_DEFINITION | INPUT_OBJECT`;
+const uppercaseDirectiveTypeDefs = `directive @${uppercaseDirective.name} on FIELD_DEFINITION | INPUT_FIELD_DEFINITION`;
 
 // This function takes in a schema and adds upper-casing logic to every resolver for an object field that has the 'upper' directive
 function upperDirectiveTransformer(schema) {
