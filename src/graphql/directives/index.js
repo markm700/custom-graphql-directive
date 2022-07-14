@@ -1,7 +1,7 @@
-const { convertUppercaseDirective, uppercaseDirectiveTypeDefs } = require('./uppercaseDirective.js')
+const { upperDirectiveTransformer, uppercaseDirectiveTypeDefs } = require('./uppercaseDirective.js')
 
 function transformSchemaWithDirectives(inputSchema) {
-  inputSchema = convertUppercaseDirective(inputSchema);
+  inputSchema = upperDirectiveTransformer(inputSchema);
   return inputSchema;
 }
 

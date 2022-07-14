@@ -66,7 +66,7 @@ function upperDirectiveTransformer(schema) {
 }
 
 module.exports = {
-  convertUppercaseDirective,
+  upperDirectiveTransformer,
   uppercaseDirectiveTypeDefs
 }
 
