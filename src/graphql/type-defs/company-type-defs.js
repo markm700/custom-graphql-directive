@@ -3,11 +3,11 @@ const { gql } = require('apollo-server-express');
 const wrestlerTypeDefs = gql`
     extend type Mutation {
         createCompany(input: CreateCompanyInput!) : WrestlingCompany!
-        deleteCompanyByName(name: String!) : WrestlingCompany!
     }
 
+    # @upper directive set to ensure that the input is uppercase
     input CreateCompanyInput {
-        name: String!
+        name: String! @upper
         allowedDivisions: [ChampionshipDivisions]!
         maxRosterSize: Int!
         headquarterCity: String
@@ -21,7 +21,7 @@ const wrestlerTypeDefs = gql`
     # @key directive indicates field(s) used to uniquely identify object, @key(fields: "companyId")
     type WrestlingCompany  {
         companyId: ID!
-        name: String!
+        name: String! @upper
         divisions: [ChampionshipDivisions!]!
         maxRosterSize: Int!
         headquarterCity: String
