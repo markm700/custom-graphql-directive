@@ -1,20 +1,20 @@
 const { gql } = require('apollo-server-express');
 
 const wrestlerTypeDefs = gql`
-    extend type Mutation {
+    type Mutation {
         createCompany(input: CreateCompanyInput!) : WrestlingCompany!
     }
 
     # @upper directive set to ensure that the input is uppercase
     input CreateCompanyInput {
-        name: String! @upper
+        name: String!
         allowedDivisions: [ChampionshipDivisions]!
         maxRosterSize: Int!
         headquarterCity: String
         yearStarted: Int
     }
 
-    extend type Query {
+    type Query {
         companies: [WrestlingCompany!]!
     }
 

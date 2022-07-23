@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 
 const wrestlerTypeDefs = gql`
-    extend type Mutation {
+    type Mutation {
         createWrestler(input: CreateWrestlerInput!) : Wrestler!
     }
 
@@ -14,10 +14,10 @@ const wrestlerTypeDefs = gql`
     }
 
     input WrestlingCompanyInput {
-        companyName: String! @upper
+        companyName: String!
     }
 
-    extend type Query {
+    type Query {
         wrestlers: [Wrestler]
     }
 
