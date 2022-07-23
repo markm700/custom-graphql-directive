@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
-const { buildSubgraphSchema } = require('@apollo/subgraph');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 const express = require('express');
 const http = require('http');
 const KNEX = require('knex');
@@ -11,7 +11,6 @@ const { resolvers } = require('./src/graphql/resolvers');
 const { transformSchemaWithDirectives, uppercaseDirectiveTypeDefs } = require('./src/graphql/directives');
 
 const knex = KNEX(knexConfig.development);
-console.log(knex);
 // Bind all Models to the knex instance. Only need to do once
 Model.knex(knex);
 
@@ -19,7 +18,7 @@ async function startApolloServer(typeDefs, resolvers) {
   const app = express();
   const httpServer = http.createServer(app);
 
-  let createdSchema = buildSubgraphSchema({ 
+  let createdSchema = makeExecutableSchema({ 
     typeDefs: [
       uppercaseDirectiveTypeDefs,
       ...typeDefs
