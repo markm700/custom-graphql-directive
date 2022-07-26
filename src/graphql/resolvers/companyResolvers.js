@@ -17,6 +17,7 @@ const wrestlingCompanyResolvers = {
                 const createdCompany = await WrestlingCompany.query()
                     .select('companyId', 'name', 'allowedDivisions', 'maxRosterSize', 'headquarterCity', 'yearStarted')
                     .where('name', '=', name);
+                console.log(`created company retrieved: ${createdCompany}`)
                 return JSON.response(createdCompany);
             } catch (err) {
                 return err.message;

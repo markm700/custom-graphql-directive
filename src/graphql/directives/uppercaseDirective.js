@@ -29,12 +29,9 @@ const uppercaseDirective = new GraphQLDirective({
 const uppercaseDirectiveTypeDefs = `directive @${uppercaseDirective.name} on FIELD_DEFINITION | INPUT_FIELD_DEFINITION`;
 
 const defaultFieldResolver = async (
-  fieldConfig,
-  _fieldName,
-  typeName
+  fieldConfig
 ) => {
-  console.log(fieldConfig, _fieldName, typeName);
-  return {fieldConfig, _fieldName, typeName};
+  return fieldConfig;
 };
 
 // This function takes in a schema and adds upper-casing logic to every resolver for an object field that has the 'upper' directive
@@ -43,9 +40,8 @@ function upperDirectiveTransformer(schema) {
     // Executes once for each object field in the schema
     // Add other MapperKinds, such as ENUM_VALUE, for other locations
     [MapperKind.OBJECT_FIELD]: (
-      fieldConfig, 
-      _fieldName,
-      typeName
+      fieldConfig,
+      fieldName
       ) => {
       // Check whether this field has the specified directive
       const upperDirective = getDirective(schema, fieldConfig, uppercaseDirective.name)?.[0];
@@ -54,11 +50,10 @@ function upperDirectiveTransformer(schema) {
         // Replace the original resolver/GQL with a function that calls the original resolver, then converts its result to upper case
         fieldConfig.resolve = async function (source, args, context, info) {
           const result = await resolve(source, args, context, info);
-          console.log(`result: ${JSON.stringify(result)}`);
-          if (typeof result.typeName === 'string') {
-            return result.toUpperCase();
+          if (typeof result[fieldName] === 'string') {
+            return result[fieldName].toUpperCase();
           }
-          return result;
+          return result[fieldName];
         }
         return fieldConfig;
       }
