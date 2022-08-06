@@ -20,11 +20,11 @@ const wrestlerTypeDefs = gql`
 
     # @key directive indicates field(s) used to uniquely identify object, @key(fields: "companyId")
     type WrestlingCompany  {
-        companyId: ID!
+        companyId: ID! @redacted(role: "BOOKER")
         name: String! @upper
         divisions: [ChampionshipDivisions!]!
-        maxRosterSize: Int!
-        headquarterCity: String
+        maxRosterSize: Int! 
+        headquarterCity: String @redacted(role: "AGENT")
         yearStarted: Int
     }
 
