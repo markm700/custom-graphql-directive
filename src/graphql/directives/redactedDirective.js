@@ -45,15 +45,14 @@ const {
         if (redactedDirectiveExists) {
           const { resolve = defaultFieldResolver } = fieldConfig;
           fieldConfig.resolve = async function (source, args, context, info) {
-            const result = await resolve(source, args, context, info);
+            const result = await resolve(source,args, context, info);
             console.log(`result: ${JSON.stringify(result)}`);
-            console.log(`source: ${JSON.stringify(source)}`)
-            if (args.role === 'BOOKER') { //BOOKER role granted access
-              return result[fieldName]; 
-            } else {
-              result[fieldName] = '[REDACTED]'; //WRESTLER, AGENT roles redacted
-              return  result[fieldName];
-            }
+            console.log(`info: ${JSON.stringify(info)}`)
+            if (args.role !== 'BOOKER') { //BOOKER role granted access
+              result[fieldName] = '[REDACTED]'; //WRESTLER role redacted
+              return  result[fieldName]; 
+            } 
+            return result[fieldName];
           }
           return fieldConfig;
         }
