@@ -24,7 +24,7 @@ const wrestlerTypeDefs = gql`
         name: String! @upper
         divisions: [ChampionshipDivisions!]!
         maxRosterSize: Int! 
-        headquarterCity: String
+        headquarterCity: String @redacted(role: "AGENT")
         yearStarted: Int
     }
 

@@ -43,13 +43,11 @@ const {
         // Check whether this field has the specified directive
         const redactedDirectiveExists = getDirective(schema, fieldConfig, redactedDirective.name)?.[0];
         if (redactedDirectiveExists) {
-          const { resolve = defaultFieldResolver } = fieldConfig;
+        const { resolve = defaultFieldResolver } = fieldConfig;
           fieldConfig.resolve = async function (source, args, context, info) {
             const result = await resolve(source,args, context, info);
-            console.log(`result: ${JSON.stringify(result)}`);
-            console.log(`info: ${JSON.stringify(info)}`)
-            if (args.role !== 'BOOKER') { //BOOKER role granted access
-              result[fieldName] = '[REDACTED]'; //WRESTLER role redacted
+            if (redactedDirectiveExists['role'] !== 'BOOKER') { //BOOKER role granted access
+              result[fieldName] = '[REDACTED]'; //WRESTLER, AGENT roles redacted
               return  result[fieldName]; 
             } 
             return result[fieldName];
