@@ -6,8 +6,8 @@ const {
   } = require('graphql')
   const { mapSchema, getDirective, MapperKind } = require('@graphql-tools/utils');
   
-  const redactedDirective = new GraphQLDirective({
-    name: 'redacted',
+  const inputValidateDirective = new GraphQLDirective({
+    name: 'validate',
     locations: [
       DirectiveLocation.ENUM,
       DirectiveLocation.ENUM_VALUE,
@@ -26,7 +26,7 @@ const {
     }
   })
   
-  const redactedDirectiveTypeDefs = `directive @${redactedDirective.name}(role: String!) on FIELD_DEFINITION`;
+  const inputValidationDirectiveTypeDefs = `directive @${inputValidateDirective.name}(length: Int!) on INPUT_FIELD_DEFINITION`;
   
   const defaultFieldResolver = async (
     fieldConfig
@@ -34,20 +34,20 @@ const {
     return fieldConfig;
   };
   
-  function redactedDirectiveTransformer(schema) {
+  function inputValidationDirectiveTransformer(schema) {
     return mapSchema(schema, {
-      [MapperKind.OBJECT_FIELD]: (
+      [MapperKind.INPUT_FIELD_DEFINITION]: (
         fieldConfig,
         fieldName
         ) => {
         // Check whether this field has the specified directive
-        const redactedDirectiveExists = getDirective(schema, fieldConfig, redactedDirective.name)?.[0];
-        if (redactedDirectiveExists) {
+        const inputValidateDirectiveExists = getDirective(schema, fieldConfig, redactedDirective.name)?.[0];
+        if (inputValidateDirectiveExists) {
         const { resolve = defaultFieldResolver } = fieldConfig;
           fieldConfig.resolve = async function (source, args, context, info) {
             const result = await resolve(source,args, context, info);
-            if (redactedDirectiveExists['role'] !== 'BOOKER') { //BOOKER role granted access
-              result[fieldName] = '[REDACTED]'; //WRESTLER, AGENT roles redacted
+            if (result[fieldName].length !== inputValidateDirectiveExists['length']) {
+              result[fieldName] = 'ERROR: Not Entered Properly';
               return  result[fieldName]; 
             } 
             return result[fieldName];
@@ -59,8 +59,8 @@ const {
   }
   
   module.exports = {
-    redactedDirectiveTransformer,
-    redactedDirectiveTypeDefs
+    inputValidationDirectiveTransformer,
+    inputValidationDirectiveTypeDefs
   }
   
   

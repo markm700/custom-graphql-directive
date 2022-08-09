@@ -8,7 +8,7 @@ const knexConfig = require('./knexfile');
 const { Model } = require('objection');
 const { typeDefs } = require('./src/graphql/type-defs');
 const { resolvers } = require('./src/graphql/resolvers');
-const { redactedDirectiveTypeDefs, transformSchemaWithDirectives, uppercaseDirectiveTypeDefs } = require('./src/graphql/directives');
+const { inputValidationDirectiveTypeDefs, redactedDirectiveTypeDefs, transformSchemaWithDirectives, uppercaseDirectiveTypeDefs } = require('./src/graphql/directives');
 
 const knex = KNEX(knexConfig.development);
 // Bind all Models to the knex instance. Only need to do once
@@ -20,6 +20,7 @@ async function startApolloServer(typeDefs, resolvers) {
 
   let createdSchema = makeExecutableSchema({ 
     typeDefs: [
+      inputValidationDirectiveTypeDefs,
       redactedDirectiveTypeDefs,
       uppercaseDirectiveTypeDefs,
       ...typeDefs

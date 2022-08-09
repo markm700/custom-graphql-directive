@@ -7,7 +7,7 @@ const wrestlerTypeDefs = gql`
 
     # @upper directive set to ensure that the input is uppercase
     input CreateCompanyInput {
-        name: String!
+        name: String! @validate(length: 3)
         allowedDivisions: [ChampionshipDivisions]!
         maxRosterSize: Int!
         headquarterCity: String
