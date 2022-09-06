@@ -23,11 +23,11 @@ const wrestlerTypeDefs = gql`
 
     # @key(fields: "wrestlerId"),  divisions: [ChampionshipDivisions] @requires(fields: "WrestlingCompany") OR @includes(if: WrestlingCompany.ChampionshipDivisions.length > 1)
     type Wrestler  {
-        wrestlerId: ID! @redacted(role: "WRESTLER")
+        wrestlerId: ID! 
         companyName: String! @upper
         name: String!
-        height: String
-        location: String
+        height: String @redacted(role: "WRESTLER")
+        location: String @redacted(role: "BOOKER")
         injured: Boolean
     }   
 `
