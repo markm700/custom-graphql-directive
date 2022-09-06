@@ -5,7 +5,6 @@ const wrestlerTypeDefs = gql`
         createCompany(input: CreateCompanyInput!) : WrestlingCompany!
     }
 
-    # @upper directive set to ensure that the input is uppercase
     input CreateCompanyInput {
         name: String!
         allowedDivisions: [ChampionshipDivisions]!
@@ -18,7 +17,6 @@ const wrestlerTypeDefs = gql`
         companies: [WrestlingCompany!]!
     }
 
-    # @key directive indicates field(s) used to uniquely identify object, @key(fields: "companyId")
     type WrestlingCompany  {
         companyId: ID! @redacted(role: "BOOKER")
         name: String! @upper
